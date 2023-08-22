@@ -99,3 +99,74 @@
 
 # number = float(input("Введите число: "))
 # number_of_digits(number)
+
+# Задача VERY HARD необязательная
+# Имеется список случайных целых чисел. 
+# Создайте список, в который попадают числа, 
+# описывающие максимальную сплошную возрастающую последовательность. Порядок элементов менять нельзя.
+# Одно число - это не последовательность.
+
+# Пример:
+
+# [1, 5, 2, 3, 4, 6, 1, 7] => [1, 7] так как здесь вразброс присутствуют все числа от 1 до 7
+
+# [1, 5, 2, 3, 4, 1, 7, 8 , 15 , 1 ] => [1, 5] так как здесь есть 
+# числа от 1 до 5 и эта последовательность длиннее чем от 7 до 8
+
+# [1, 5, 3, 4, 1, 7, 8 , 15 , 1 ] => [3, 5] так как здесь 
+# есть числа от 3 до 5 и эта последовательность длиннее чем от 7 до 8
+
+import random
+
+def max_increasing_sequence(number_elements, min, max):
+    list = []
+    i = 1
+    sequence = 0
+    max_sequence = 0
+    while i <= number_elements:
+        list.append(random.randint(min,max))
+        i+=1
+    
+    min_number = 0
+    max_number = 0
+    min_number_sequence = 0
+    max_number_sequence = 0
+    k = 0
+    h = 1
+    i = 1
+    while i <= number_elements:
+        if list[k]+1 == list[h]:
+            if min_number == 0:
+                min_number = list[k]
+            if min_number > list[k]:
+                min_number = list[k]
+            k = h
+            if max_number < list[k]:
+                max_number = list[k]
+            h = 0
+            sequence+=1
+        else:
+            h+=1
+            if h == number_elements:
+                if max_sequence < sequence:
+                    max_number_sequence = max_number
+                    min_number_sequence = min_number
+                    max_sequence = sequence
+                    sequence = 0
+                    min_number = 0
+                    max_number = 0
+                else:
+                    sequence = 0
+                i+=1
+                h = 0
+                k = i - 1
+                
+    list_sequence = [min_number_sequence,max_number_sequence]
+    
+    return(print(f"{list} => {list_sequence}так как здесь вразброс присутствуют все числа от {min_number_sequence} до {max_number_sequence}"))
+
+
+number_elements = int(input("Введите количество элементов в последовательности: "))
+min = int(input("Введите минимальный диапазон списка: "))
+max = int(input("Введите максимальный диапазон списка: "))
+max_increasing_sequence(number_elements, min, max)
